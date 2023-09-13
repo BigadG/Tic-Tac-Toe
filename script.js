@@ -1,5 +1,5 @@
 let availableSquares;
-const Gameboard = ((availableSquares) => {
+const gameboard = ((availableSquares) => {
     let gameBoardArray
     if (availableSquares != null) {
         return gameBoardArray = availableSquares
@@ -9,10 +9,19 @@ const Gameboard = ((availableSquares) => {
     }
 })(availableSquares);
 
-const Player = (playerName, squareSelection) => {
-
+const player = (userName, squareSelection) => {
+    const playerName = `Name: ${userName}`
+    return {playerName, squareSelection}
 };
 
-const FlowOfGame = ((gameBoardArray) => {
+const squares = document.querySelector('.squares');
+
+const flowOfGame = ((gameBoardArray) => {
+    squares.addEventListener('click', event => {
+        let btn = event.target.closest("button");
+        
+        if (!btn || !squares.contains(btn)) return;
+    });
     
+    return {availableSquares, squareSelection, computerSelection}
 })();
