@@ -1,0 +1,24 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: darkred;
+}
+
+.game-board {
+    background-color: black;
+    border-color: black;
+    box-shadow: 0px 10px 20px 20px;
+    display: grid;
+    grid-template-rows: 30% 30% 30%;
+    grid-template-columns: 30% 30% 30%;
+    gap: 5%;
+    width: 45vw;
+    height: 45vw;
+    margin: 100px;
+}
+
+.squares {
+    background-color: darkred;
+    border-style: none;
+}
