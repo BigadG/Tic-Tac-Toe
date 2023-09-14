@@ -1,13 +1,13 @@
 let availableSquares;
 const gameboard = ((availableSquares) => {
-    let gameBoardArray
+    
+    let gameBoardArray = ['1A', '1B', '1C', '2A', '2B', '2C', '3A', '3B', '3C'] //numb = row, letter = column
+    
     if (availableSquares != null) {
         return gameBoardArray = availableSquares
     }
-    else {
-        return gameBoardArray = ['1A', '1B', '1C', '2A', '2B', '2C', '3A', '3B', '3C'] //numb = row, letter = column
-    }
 
+    return {gameBoardArray}
     //if the process of feeding gameBoardArray back and forth between gameboard and flowOfGame, try returning a diff
     //name from gameboard, and recieving that same name into flowOfGame
 })(availableSquares);
@@ -17,8 +17,10 @@ const player = (userName, squareSelection) => {
     return {playerName, squareSelection}
 };
 
+let gameBoardArray = gameboard.gameBoardArray
+
 const squares = document.querySelector('.squares');
-const gameBoardDiv = document.querySelector('.game-board')
+const gameBoardDiv = document.querySelector('.game-board');
 
 
 //const flowOfGame = ((gameBoardArray) => {
@@ -30,9 +32,14 @@ const gameBoardDiv = document.querySelector('.game-board')
         if (!squareSelection || !gameBoardDiv.contains(squareSelection)) return;
 
         let buttonID = squareSelection.id;
-        console.log(buttonID);
         
-
+        //add func to change gameBoardArray value based on which button was clicked
+        let index = gameBoardArray.indexOf(buttonID);
+        if (index !== -1) {
+            gameBoardArray.splice(index, 1);
+        }
+            
+        console.log(gameBoardArray);
     });
 
 
