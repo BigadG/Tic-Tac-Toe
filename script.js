@@ -1,76 +1,51 @@
-let availableSquares;
-const gameboard = ((availableSquares) => {
-    
-    let gameBoardArray = ['1A', '1B', '1C', '2A', '2B', '2C', '3A', '3B', '3C'] //numb = row, letter = column
-    
-    if (availableSquares != null) {
-        return gameBoardArray = availableSquares
+const Gameboard = (() => {
+    let gameBoardArray = ['1A', '1B', '1C', '2A', '2B', '2C', '3A', '3B', '3C']; //numb = row, letter = column
+
+    const player = (userName, squareSelection) => {
+        const playerName = `Name: ${userName}`;
+        return { playerName, squareSelection };
+    };
+
+    function getRandomValue(arr) {
+        const randomIndex = Math.floor(Math.random() * arr.length);
+        return arr[randomIndex];
     }
 
-    console.log(availableSquares)
-    return {gameBoardArray}
-    //if the process of feeding gameBoardArray back and forth between gameboard and flowOfGame, try returning a diff
-    //name from gameboard, and recieving that same name into flowOfGame
-})(availableSquares);
-
-const player = (userName, squareSelection) => {
-    const playerName = `Name: ${userName}`
-    return {playerName, squareSelection}
-};
-
-let gameBoardArray = gameboard.gameBoardArray
-
-const squares = document.querySelector('.squares');
-const gameBoardDiv = document.querySelector('.game-board');
-
-
-//const flowOfGame = ((gameBoardArray) => {
-
-        //assign a square title to each square (ex. 1A, 1B, etc.)
-    gameBoardDiv.addEventListener('click', event => {
+    function handleSquareClick(event) {
         let squareSelection = event.target.closest("button");
 
         if (!squareSelection || !gameBoardDiv.contains(squareSelection)) return;
 
         let buttonID = squareSelection.id;
-        
-        //change gameBoardArray value based on which button was clicked
+
         let index = gameBoardArray.indexOf(buttonID);
         if (index !== -1) {
             gameBoardArray.splice(index, 1);
         } 
 
-        //add an 'X' on to the button that's clicked
         squareSelection.innerText = 'X';
-
-        //func to randomly select a square for computerSelection
-        function getRandomValue(arr) {
-            const randomIndex = Math.floor(Math.random() * arr.length);
-            return arr[randomIndex];
-        }
         
         const computerSelection = getRandomValue(gameBoardArray);        
-
-        //update squareSelection inner text with an 'O' for the computerSelection
-        let computerSquare = document.getElementById(computerSelection)
+        let computerSquare = document.getElementById(computerSelection);
         
         setTimeout(function() {
             computerSquare.innerText = 'O';
-        }, 1000); // 1000 milliseconds = 1 second
-        
-        //run the func to change the gameBoardArray value again after this
+        }, 1000);
+
         let indexComp = gameBoardArray.indexOf(computerSelection);
         if (indexComp !== -1) {
             gameBoardArray.splice(indexComp, 1);
         } 
-        console.log(gameBoardArray);
 
-        availableSquares = gameBoardArray
-        return availableSquares, squareSelection, computerSelection
-    });
+        return { availableSquares: gameBoardArray, squareSelection, computerSelection };
+    }
 
- //   return {availableSquares, squareSelection, computerSelection}
-//})(gameBoardArray);
+    return { player, handleSquareClick };
+})();
+
+const gameBoardDiv = document.querySelector('.game-board');
+gameBoardDiv.addEventListener('click', Gameboard.handleSquareClick);
+
 
 
 
