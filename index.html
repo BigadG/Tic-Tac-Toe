@@ -8,19 +8,29 @@
     <script src="script.js" defer></script>
 </head>
 <body>
-    <div class="outer-box">
-        <div class="game-board">
-            <button class="squares" id="1A"></button>
-            <button class="squares" id="1B"></button>
-            <button class="squares" id="1C"></button>
-            <button class="squares" id="2A"></button>
-            <button class="squares" id="2B"></button>
-            <button class="squares" id="2C"></button>
-            <button class="squares" id="3A"></button>
-            <button class="squares" id="3B"></button>
-            <button class="squares" id="3C"></button>
+     <div class="container">
+        <div class="score-box"> 
+            <div class="user-score-title">Your Score</div>
+            <div class="user-score">__</div>
         </div>
-    </div>
+        <div class="outer-box">
+            <div class="game-board">
+                <button class="squares" id="1A"></button>
+                <button class="squares" id="1B"></button>
+                <button class="squares" id="1C"></button>
+                <button class="squares" id="2A"></button>
+                <button class="squares" id="2B"></button>
+                <button class="squares" id="2C"></button>
+                <button class="squares" id="3A"></button>
+                <button class="squares" id="3B"></button>
+                <button class="squares" id="3C"></button>
+            </div>
+        </div>
+        <div class="score-box"> 
+            <div class="comp-score-title">Comp Score</div>
+            <div class="comp-score">__</div>
+        </div> 
+    </div>   
     <button class="restart" id="reset">RESTART</button>
     <div class="popup">
         <button class="x">x</button>

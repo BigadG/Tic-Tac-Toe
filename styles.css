@@ -9,6 +9,45 @@ body {
     background-color: purple;
 }
 
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100vw;
+}
+
+.score-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: black;
+    width: 250px;
+    height: 150px;
+    border-radius: 10px;
+}
+
+.user-score-title,
+.comp-score-title {
+    font-size: 30px;
+    font-family: 'Archivo Black', sans-serif;
+    text-align: center;
+}
+
+.user-score-title {
+    color: #37fd12;
+}
+
+.comp-score-title {
+    color: darkred;
+}
+
+.user-score,
+.comp-score {
+    font-size: 50px;
+    text-align: center;
+    color: white;
+}
+
 .outer-box {
     display: flex;
     justify-content: center;

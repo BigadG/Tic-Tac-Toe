@@ -185,6 +185,6 @@ gameBoardDiv.addEventListener('click', Gameboard.handleSquareClick);
 
 
 
-//allow players to put in their names, use 'player' fact func for this
+//allow players to input their names?: use 'player' fact func for this
 
 //Make a score card counting number of wins and losses
