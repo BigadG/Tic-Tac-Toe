@@ -4,6 +4,8 @@ const popup = document.querySelector('.popup');
 const restart = document.querySelector('.restart');
 const gameStatus = document.querySelector('.game-status');
 const xButton = document.querySelector('.x');
+const yourScoreDisplay = document.querySelector('.user-score');
+const compScoreDisplay = document.querySelector('.comp-score');
 
 
 
@@ -76,25 +78,29 @@ const Gameboard = (() => {
     function winnerFunction(char) {
         winnerInvoked = true;
         loserInvoked = true;
+        
         setTimeout(() => {
             popup.style.display = 'block';
             popup.style.backgroundColor = "green";
             popup.style.color = "green";
             gameStatus.innerHTML = 'You won the game!'
         }, 500);
-
+        
+        addPoints();
         gameReset();
     }
 
     function loserFunction(char) {
         loserInvoked = true;
+        
         setTimeout(() => {
             popup.style.display = 'block';
             popup.style.backgroundColor = "darkred";
             popup.style.color = "darkred";
             gameStatus.innerHTML = 'You lost the game!'
         }, 500); 
-
+        
+        addPoints();
         gameReset();
     }
 
@@ -177,6 +183,20 @@ const Gameboard = (() => {
         } else return
     }
 
+    let yourScore = 0;
+    let compScore = 0;
+
+    function addPoints() {
+        if (winnerInvoked) {
+            yourScore++
+            return yourScoreDisplay.innerHTML = yourScore;
+        } else if (loserInvoked) {
+            compScore++
+            return compScoreDisplay.innerHTML = compScore;
+        } else return
+    }
+
+
 
     return { player, handleSquareClick };
 })();
@@ -187,4 +207,3 @@ gameBoardDiv.addEventListener('click', Gameboard.handleSquareClick);
 
 //allow players to input their names?: use 'player' fact func for this
 
-//Make a score card counting number of wins and losses
