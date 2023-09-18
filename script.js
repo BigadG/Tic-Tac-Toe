@@ -1,3 +1,12 @@
+const gameBoardDiv = document.querySelector('.game-board');
+const squares = document.querySelectorAll('.squares');
+const popup = document.querySelector('.popup');
+const restart = document.querySelector('.restart');
+const gameStatus = document.querySelector('.game-status');
+const xButton = document.querySelector('.x');
+
+
+
 const Gameboard = (() => {
     let gameBoardArray = ['1A', '1B', '1C', '2A', '2B', '2C', '3A', '3B', '3C']; //numb = row, letter = column
 
@@ -35,73 +44,147 @@ const Gameboard = (() => {
         let computerSquare = document.getElementById(computerSelection);
         
         setTimeout(function() {
+            if (!winnerInvoked) {
             computerSquare.innerText = 'O';
-        }, 1000);
+            }
+        }, 250); // 1000 milliseconds is equivalent to 1 second
         
         //add computer squares to oArray and remove them from gameBoardArray
         let indexComp = gameBoardArray.indexOf(computerSelection);
         if (indexComp !== -1) {
             let splicedComp = gameBoardArray.splice(indexComp, 1);
-            oArray.push(...splicedComp);        } 
+            oArray.push(...splicedComp);
+        } 
 
-
-        console.log(`xArray: ${xArray}`)
-        console.log(`oArray: ${oArray}`)
-        console.log(`gameBoardArray: ${gameBoardArray}`)
 
         checkForRepeatingCharacters(xArray);
         checkForRepeatingCharacters(oArray);
+        checkForDiagonal(xArray);
+        checkForDiagonal(oArray);
+        checkForTie(gameBoardArray);
+        closePopup();
 
 
         return { availableSquares: gameBoardArray, squareSelection, computerSelection };
     }
 
 
+    //replace this example func with the func for ending the game/announcing winner
+    let winnerInvoked = false;
+    let loserInvoked = false;
+   
+    function winnerFunction(char) {
+        winnerInvoked = true;
+        loserInvoked = true;
+        setTimeout(() => {
+            popup.style.display = 'block';
+            popup.style.backgroundColor = "green";
+            popup.style.color = "green";
+            gameStatus.innerHTML = 'You won the game!'
+        }, 500);
 
-
-
-//replace this example func with the func for ending the game/announcing winner
-function exampleFunction(char) {
-    console.log(`The character "${char}" appears three or more times.`);
-}
-
-function checkForRepeatingCharacters(items) {
-    // Create a Map to store character counts
-    let charCount = new Map();
-
-    // Flatten the array into a single string
-    let flattened = items.join('');
-
-    for (let char of flattened) {
-        charCount.set(char, (charCount.get(char) || 0) + 1);
+        gameReset();
     }
 
-    for (let [char, count] of charCount.entries()) {
-        if (count >= 3) {
-            exampleFunction(char);
-            return;
+    function loserFunction(char) {
+        loserInvoked = true;
+        setTimeout(() => {
+            popup.style.display = 'block';
+            popup.style.backgroundColor = "darkred";
+            popup.style.color = "darkred";
+            gameStatus.innerHTML = 'You lost the game!'
+        }, 500); 
+
+        gameReset();
+    }
+
+    function tieFunction() {
+        setTimeout(() => {
+            popup.style.display = 'block';
+            popup.style.backgroundColor = "darkgray";
+            popup.style.color = "black";
+            gameStatus.innerHTML = "It's a tie!"
+        }, 500); 
+
+        gameReset();
+    }
+
+    function closePopup() {
+        xButton.addEventListener('click', () => {
+            popup.style.display = 'none';
+        });
+    }
+
+    function checkForRepeatingCharacters(items) {
+        // Create a Map to store character counts
+        let charCount = new Map();
+
+        // Flatten the array into a single string
+        let flattened = items.join('');
+
+        for (let char of flattened) {
+            charCount.set(char, (charCount.get(char) || 0) + 1);
+        }
+
+        for (let [char, count] of charCount.entries()) {
+            if (count >= 3 && items === xArray) {
+                return winnerFunction(char);
+            } else if (count >= 3 && items === oArray) {
+                return loserFunction(char);
+            }
         }
     }
-}
+
+    function checkForDiagonal(items) {
+        const isDiagonal =
+            (items.includes('1A') && items.includes('2B') && items.includes('3C')) ||
+            (items.includes('1C') && items.includes('2B') && items.includes('3A'));
+    
+        if (isDiagonal) {
+            if (items === xArray) {
+                return winnerFunction();
+            } else if (items === oArray) {
+                return loserFunction();
+            }
+        }
+    }
 
 
+    function gameReset() {
+        restart.addEventListener('click', () => {
+            xArray = [];
+            oArray = [];
+            gameBoardArray = ['1A', '1B', '1C', '2A', '2B', '2C', '3A', '3B', '3C'];
+
+            //change this so instead of after 3 seconds, it's after the win or loss popup is exited by user
+            setTimeout(() => {
+                squares.forEach(element => {
+                    element.innerText = '';
+                });
+
+                winnerInvoked = false;
+                loserInvoked = false;
+            }, 500);
+
+            //close popup
+            popup.style.display = 'none';
+        })
+    }
+
+    function checkForTie(gameBoardArray) {
+        if (gameBoardArray.length === 0 && !winnerInvoked) {
+            return tieFunction();
+        } else return
+    }
 
 
     return { player, handleSquareClick };
 })();
 
-const gameBoardDiv = document.querySelector('.game-board');
 gameBoardDiv.addEventListener('click', Gameboard.handleSquareClick);
 
 
 
-//make game end once someboday gets 3 in a row. Display message with winner. Steps:
-// --find pattern in array--Maybe: if 3 array items contain same letter or number, game ends. For diagonal: if the specific
-//pattern of [1A, 2B, 3C] or [1C, 2B. 3A] exist, game ends
-// -- Then worry about popup and game reset process (through page reload or other method)
+//allow players to put in their names, use 'player' fact func for this
 
-//make game end once all squares are filled, display message with this
-
-//make a button to start/restart the game
-
-//Clean up the interface to allow players to put in their names, use 'player' fact func for this
+//Make a score card counting number of wins and losses
